@@ -17,10 +17,15 @@ use_cython = True #os.environ.get('USE_CYTHON', '') != ''
 # check HDF5 include and lib dirs
 hdf5_dir = os.environ.get('HDF5_DIR', '/usr')
 hdf5_include_dir = os.environ.get('HDF5_INCLUDE_DIR', os.path.join(hdf5_dir, 'include'))
-if os.path.isdir(os.path.join(hdf5_include_dir, 'hdf5', 'serial')):
-    hdf5_include_dir = os.path.join(hdf5_include_dir, 'hdf5', 'serial')
 hdf5_lib_dir = os.environ.get('HDF5_LIB_DIR', os.path.join(hdf5_dir, 'lib'))
 hdf5_lib = os.environ.get('HDF5_LIB', 'hdf5')
+
+# check if to use 'serial' variants
+if os.path.isdir(os.path.join(hdf5_include_dir, 'hdf5', 'serial')):
+    hdf5_include_dir = os.path.join(hdf5_include_dir, 'hdf5', 'serial')
+if os.path.isdir(os.path.join(hdf5_lib_dir, 'x86_64-linux-gnu', 'hdf5', 'serial')):
+    hdf5_lib_dir = os.path.join(hdf5_lib_dir, 'x86_64-linux-gnu', 'hdf5', 'serial')
+
 if not os.path.isfile(os.path.join(hdf5_include_dir, 'H5pubconf.h')):
     sys.exit(hdf5_include_dir + ': could not find HDF5 header files; use HDF5_DIR or HDF5_INCLUDE_DIR')
 if (not os.path.isfile(os.path.join(hdf5_lib_dir, 'lib' + hdf5_lib + '.so'))
